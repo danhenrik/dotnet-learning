@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using dotnetlearning.Database;
 using dotnetlearning.ViewModels;
 using dotnetlearning.Models;
+using dotnetlearning.Repositories;
 
 namespace DotNETAPI.controllers.ClubController
 {
@@ -10,37 +11,44 @@ namespace DotNETAPI.controllers.ClubController
     [Route("v1")]
     public class ClubController : ControllerBase
     {
+        ClubRepository clubRepository;
+
+        public ClubController(ClubRepository _clubRepository)
+        {
+            clubRepository = _clubRepository;
+        }
+
         // POST /club
         [HttpPost]
         [Route("club")]
         public async Task<IActionResult> Post([FromServices] AppDbContext db, [FromBody] CreateClub model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            var local = new Local
+            try
             {
-                City = model.Local.City,
-                State = model.Local.State,
-                Street = model.Local.Street,
-                Zip = model.Local.Zip,
-            };
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            if (model.Local.Number != null)
-                local.Number = model.Local.Number;
+                var local = new Local
+                {
+                    City = model.Local.City,
+                    State = model.Local.State,
+                    Street = model.Local.Street,
+                    Zip = model.Local.Zip,
+                };
 
-            db.Locals.Add(local);
+                if (model.Local.Number != null)
+                    local.Number = model.Local.Number;
 
-            var club = new Club
+                db.Locals.Add(local);
+                await db.SaveChangesAsync();
+
+                await clubRepository.CreateAsync(model, local);
+                return NoContent();
+            }
+            catch (Exception ex)
             {
-                Name = model.Name,
-                Supporters = model.Supporters,
-                Local = local,
-            };
-
-            db.Clubs.Add(club);
-            await db.SaveChangesAsync();
-            return NoContent();
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET: /club
@@ -48,13 +56,9 @@ namespace DotNETAPI.controllers.ClubController
         [Route("club")]
         public async Task<IActionResult> Get([FromServices] AppDbContext db)
         {
-            var club = await db.Clubs
-                .AsNoTracking()
-                .Include(c => c.Local)
-                .ToListAsync();
+            var clubs = await clubRepository.GetAllAsync();
 
-
-            return Ok(club);
+            return Ok(clubs);
         }
 
         // GET /club/5
@@ -62,13 +66,11 @@ namespace DotNETAPI.controllers.ClubController
         [Route("club/{id}")]
         public async Task<IActionResult> Get([FromServices] AppDbContext db, [FromRoute] int id)
         {
-            var club = await db.Clubs
-                .AsNoTracking()
-                .Include(c => c.Local)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var club = await clubRepository.GetByIdAsync(id);
 
             if (club == null)
                 return NotFound("Clube não encontrado");
+
             return Ok(club);
         }
 
@@ -77,22 +79,18 @@ namespace DotNETAPI.controllers.ClubController
         [Route("club/{id}")]
         public async Task<IActionResult> Put([FromServices] AppDbContext db, [FromRoute] int id, [FromBody] UpdateClub model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
 
-            var club = await db.Clubs
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (club == null)
-                return NotFound("Clube não encontrado");
-
-            club.Name = model.Name ?? club.Name;
-            club.Supporters = model.Supporters ?? club.Supporters;
-
-            db.Clubs.Update(club);
-            await db.SaveChangesAsync();
-            return NoContent();
+                var club = await clubRepository.UpdateAsync(id, model);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE /club/5
@@ -100,16 +98,15 @@ namespace DotNETAPI.controllers.ClubController
         [Route("club/{id}")]
         public async Task<IActionResult> Delete([FromServices] AppDbContext db, [FromRoute] int id)
         {
-            var club = await db.Clubs
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (club == null)
-                return NotFound("Clube não encontrado");
-
-            db.Clubs.Remove(club);
-            await db.SaveChangesAsync();
-            return NoContent();
+            try
+            {
+                await clubRepository.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

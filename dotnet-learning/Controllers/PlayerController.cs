@@ -21,14 +21,12 @@ namespace DotNETAPI.controllers.PlayerController
                 return BadRequest();
 
             var club = await db.Clubs
-                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == model.ClubId);
 
             if (club == null)
                 return NotFound("Clube não encontrado");
 
             var position = await db.Positions
-                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == model.PositionId);
 
             if (position == null)
@@ -40,7 +38,7 @@ namespace DotNETAPI.controllers.PlayerController
                 Age = model.Age,
                 Height = model.Height,
                 ShirtNumber = model.ShirtNumber,
-                Position= position, // Ta dando problema, rever isso
+                Position = position,
                 Club = club,
             };
 
@@ -57,6 +55,8 @@ namespace DotNETAPI.controllers.PlayerController
             var players = await db.Players
                 .AsNoTracking()
                 .Include(p => p.Club)
+                .Include(p => p.Position)
+                .OrderBy(p => p.Id)
                 .ToListAsync();
 
             return Ok(players);
@@ -70,6 +70,7 @@ namespace DotNETAPI.controllers.PlayerController
             var player = await db.Players
                 .AsNoTracking()
                 .Include(p => p.Club)
+                .Include(p => p.Position)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (player == null)
@@ -78,7 +79,7 @@ namespace DotNETAPI.controllers.PlayerController
             return Ok(player);
         }
 
-        
+
         // PUT /player/5
         [HttpPut]
         [Route("player/{id}")]
@@ -88,7 +89,6 @@ namespace DotNETAPI.controllers.PlayerController
                 return BadRequest();
 
             var player = await db.Players
-                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (player == null)
@@ -114,7 +114,7 @@ namespace DotNETAPI.controllers.PlayerController
 
                 if (position == null)
                     return NotFound("Posição não encontrada");
-                
+
                 player.Position = position;
             }
 
@@ -123,7 +123,6 @@ namespace DotNETAPI.controllers.PlayerController
             player.Age = model.Age ?? player.Age;
             player.ShirtNumber = model.ShirtNumber ?? player.ShirtNumber;
 
-            db.Players.Update(player);
             await db.SaveChangesAsync();
             return NoContent();
         }

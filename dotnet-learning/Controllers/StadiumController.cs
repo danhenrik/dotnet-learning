@@ -81,7 +81,6 @@ namespace DotNETAPI.controllers.StadiumController
                 return BadRequest();
 
             var stadium = await db.Stadiums
-                .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.Id == id);
 
             if (stadium == null)
@@ -90,7 +89,6 @@ namespace DotNETAPI.controllers.StadiumController
             stadium.Name = model.Name ?? stadium.Name;
             stadium.AvailableSits = model.AvailableSits ?? stadium.AvailableSits;
 
-            db.Stadiums.Update(stadium);
             await db.SaveChangesAsync();
             return NoContent();
         }

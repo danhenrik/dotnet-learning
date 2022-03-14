@@ -65,7 +65,6 @@ namespace DotNETAPI.controllers.PositionController
                 return BadRequest();
 
             var position = await db.Positions
-                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (position == null)
@@ -73,7 +72,6 @@ namespace DotNETAPI.controllers.PositionController
 
             position.Name = model.Name ?? position.Name;
 
-            db.Positions.Update(position);
             await db.SaveChangesAsync();
             return NoContent();
         }

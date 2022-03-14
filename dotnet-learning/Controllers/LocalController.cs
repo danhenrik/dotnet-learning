@@ -45,7 +45,6 @@ namespace DotNETAPI.controllers.LocalController
                 return BadRequest();
 
             var local = await db.Locals
-                .AsNoTracking()
                 .FirstOrDefaultAsync(l => l.Id == id);
 
             if (local == null)
@@ -57,7 +56,6 @@ namespace DotNETAPI.controllers.LocalController
             local.Zip = model.Zip ?? local.Zip;
             local.Number = model.Number ?? local.Number;
 
-            db.Locals.Update(local);
             await db.SaveChangesAsync();
             return NoContent();
         }

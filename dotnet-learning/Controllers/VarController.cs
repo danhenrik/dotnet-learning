@@ -21,7 +21,7 @@ namespace DotNETAPI.controllers.VarController
             
             dynamic result;
             using (var conn = new MySqlConnection($"Server={DB_Server};Database={DB_Database};Uid={DB_User};Pwd={DB_Password};"))
-            {
+            {   
                 var sql = $"CALL getTopJogadores({qtt});";
                 result = conn.Query(sql).ToList();
             };

@@ -19,18 +19,15 @@ namespace DotNETAPI.controllers.MatchController
                 return BadRequest();
 
             var clubA = await db.Clubs
-                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == model.ClubAId);
 
             var clubB = await db.Clubs
-                .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == model.ClubBId);
 
             if (clubA == null || clubB == null)
                 return NotFound("Um dos 2 clubes não foi encontrado");
             
             var stadium = await db.Stadiums
-                .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.Id == model.StadiumId);
             
             if (stadium == null)
@@ -52,7 +49,6 @@ namespace DotNETAPI.controllers.MatchController
             foreach (ParticipationVM PModel in participationList)
             {
                 var player = await db.Players
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == PModel.PlayerId);
 
                 if (player == null)
@@ -79,6 +75,9 @@ namespace DotNETAPI.controllers.MatchController
         {
             var matchs = await db.Matches
                 .AsNoTracking()
+                .Include(m => m.ClubA)
+                .Include(m => m.ClubB)
+                .Include(m => m.Stadium)
                 .ToListAsync();
 
             return Ok(matchs);
@@ -109,7 +108,6 @@ namespace DotNETAPI.controllers.MatchController
                 return BadRequest();
 
             var match = await db.Matches
-                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (match == null)
@@ -118,7 +116,6 @@ namespace DotNETAPI.controllers.MatchController
             if (model.ClubAId != null)
             {
                 var clubA = await db.Clubs
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(c => c.Id == model.ClubAId);
 
                 if (clubA == null)
@@ -130,7 +127,6 @@ namespace DotNETAPI.controllers.MatchController
             if (model.ClubBId != null)
             {
                 var clubB = await db.Clubs
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(c => c.Id == model.ClubBId);
 
                 if (clubB == null)
@@ -142,7 +138,6 @@ namespace DotNETAPI.controllers.MatchController
             if (model.StadiumId != null)
             {
                 var stadium = await db.Stadiums
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(s => s.Id == model.StadiumId);
 
                 if (stadium == null)
@@ -165,7 +160,6 @@ namespace DotNETAPI.controllers.MatchController
             foreach (ParticipationVM PModel in newParticipationList)
             {
                 var player = await db.Players
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == PModel.PlayerId);
 
                 if (player == null)
@@ -191,7 +185,6 @@ namespace DotNETAPI.controllers.MatchController
             foreach(int playeId in outFromMatch)
             {
                 var participation = await db.Participations
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Player.Id == playeId && p.Match.Id == id);
 
                 if (participation == null)
@@ -200,7 +193,6 @@ namespace DotNETAPI.controllers.MatchController
                 db.Participations.Remove(participation);
             }
 
-            db.Matches.Update(match);
             await db.SaveChangesAsync();
             return NoContent();
         }
