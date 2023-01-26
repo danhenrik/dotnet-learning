@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-learning", "dotnet-learning\dotnet-learning.csproj", "{8D276375-3AF3-4A0C-88F0-868BAF6EB348}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{859CDF14-702D-49A5-A6A1-F5648C3C7A76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{FDD4A61B-13DC-48BC-9350-320543FCFC1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{C6E1910F-2D3F-4E75-B234-3EAB1E7FA1D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-learning,api", "dotnet-learning.api\dotnet-learning,api.csproj", "{233F177E-CA3D-4711-842F-8C8688870A3B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-learning.infra.data", "dotnet-learning.infra.data\dotnet-learning.infra.data.csproj", "{2AB44F66-E794-4DE6-8E05-4743A67E32D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-learning.infra", "dotnet-learning.infra\dotnet-learning.infra.csproj", "{8FE4C899-398D-4257-B2F7-B7C1529BB81E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnetlearning", "dotnetlearning\dotnetlearning.csproj", "{183BE205-724E-47AA-BED8-C53A0DC2BCB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +23,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8D276375-3AF3-4A0C-88F0-868BAF6EB348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D276375-3AF3-4A0C-88F0-868BAF6EB348}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D276375-3AF3-4A0C-88F0-868BAF6EB348}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D276375-3AF3-4A0C-88F0-868BAF6EB348}.Release|Any CPU.Build.0 = Release|Any CPU
+		{233F177E-CA3D-4711-842F-8C8688870A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{233F177E-CA3D-4711-842F-8C8688870A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{233F177E-CA3D-4711-842F-8C8688870A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{233F177E-CA3D-4711-842F-8C8688870A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB44F66-E794-4DE6-8E05-4743A67E32D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB44F66-E794-4DE6-8E05-4743A67E32D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB44F66-E794-4DE6-8E05-4743A67E32D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB44F66-E794-4DE6-8E05-4743A67E32D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FE4C899-398D-4257-B2F7-B7C1529BB81E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FE4C899-398D-4257-B2F7-B7C1529BB81E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FE4C899-398D-4257-B2F7-B7C1529BB81E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FE4C899-398D-4257-B2F7-B7C1529BB81E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183BE205-724E-47AA-BED8-C53A0DC2BCB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183BE205-724E-47AA-BED8-C53A0DC2BCB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183BE205-724E-47AA-BED8-C53A0DC2BCB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183BE205-724E-47AA-BED8-C53A0DC2BCB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{233F177E-CA3D-4711-842F-8C8688870A3B} = {C6E1910F-2D3F-4E75-B234-3EAB1E7FA1D6}
+		{2AB44F66-E794-4DE6-8E05-4743A67E32D5} = {859CDF14-702D-49A5-A6A1-F5648C3C7A76}
+		{8FE4C899-398D-4257-B2F7-B7C1529BB81E} = {859CDF14-702D-49A5-A6A1-F5648C3C7A76}
+		{183BE205-724E-47AA-BED8-C53A0DC2BCB7} = {FDD4A61B-13DC-48BC-9350-320543FCFC1E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C5C04B2-8CC4-4474-80D2-59C20598159F}

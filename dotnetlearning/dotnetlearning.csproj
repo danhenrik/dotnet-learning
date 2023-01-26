@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Validations\Stadium\" />
+    <Folder Include="Commands\Validations\Position\" />
+    <Folder Include="Commands\Validations\Player\" />
+    <Folder Include="Commands\Validations\Participation\" />
+    <Folder Include="Commands\Validations\Match\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flunt" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dotnet-learning.infra\dotnet-learning.infra.csproj" />
+  </ItemGroup>
+
+</Project>
