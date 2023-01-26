@@ -17,7 +17,7 @@ namespace dotnet_learning.infra.data.repositories
         }
 
         public async Task<IEnumerable<PositionQueryResult>> ListAsync() => 
-            await context.Connection.QueryAsync<PositionQueryResult>(queries.LocalQueries.LIST;
+            await context.Connection.QueryAsync<PositionQueryResult>(queries.LocalQueries.LIST);
             
         public async Task<PositionQueryResult> GetAsync(int id) =>
             await context.Connection.QueryFirstOrDefaultAsync<PositionQueryResult>(queries.LocalQueries.GET_BY_ID, new { id });
